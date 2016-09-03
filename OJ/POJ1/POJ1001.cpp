@@ -1,0 +1,72 @@
+//高精度运算 
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+using namespace std;
+char s[100];
+int a[1000],b[100],c[1000];
+int main()
+{
+	int i,j,k,n,len,point,index,id;
+	while(scanf("%s%d",s,&n)!=EOF)
+	{
+		memset(a,0,sizeof(a));
+		memset(b,0,sizeof(b));
+		memset(c,0,sizeof(c));
+		len=strlen(s);
+		for(i=len-1,j=0,point=0;i>=0;i--)
+		{
+			if(s[i]!='.')
+			{ 
+			  b[j]=s[i]-'0';
+			  c[j++]=b[j];
+			}
+			else
+				point=len-1-i;
+		}
+		for(k=0;k<n-1;k++)
+		{
+			for(i=0;i<1000;i++)
+			  for(j=0;j<100-i;j++)
+				a[i+j]+=c[i]*b[j];
+			for(i=0;i<1000;i++)
+			{
+				a[i+1]+=a[i]/10;
+				a[i]%=10;
+			}
+			memcpy(c,a,sizeof(c));
+			memset(a,0,sizeof(a));
+		}
+		for(j=0;j<point*n;j++)
+		{
+			if(c[j]!=0)
+			{
+				id=j;
+				break;
+			}
+		}
+		if(j==point*n)
+			id=j;
+		for(i=1000;i>=0;i--)
+		  if(c[i]!=0)
+		  {
+			  index=i;
+			  break;
+		  }
+		if(i<point*n)
+		{
+			printf(".");
+			for(i=point*n-1;i>=id;i--)
+			  printf("%d",c[i]);
+		}
+		else
+		  for(;i>=id;i--)
+		  {
+			  if(i==point*n-1)
+				printf(".");
+			  printf("%d",c[i]);
+		  }
+		printf("\n");
+	}
+	return 0;
+}

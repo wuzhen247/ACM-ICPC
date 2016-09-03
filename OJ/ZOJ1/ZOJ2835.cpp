@@ -1,0 +1,71 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+int n,a[15][15];
+int main()
+{
+	int sum,i,j,temp,b[1005];
+	bool f;
+	while(scanf("%d",&n)&&n)
+	{
+		memset(b,0,sizeof(b));
+		f=true;
+		sum=temp=0;
+		for(i=1;i<=n;i++)
+		{
+		  for(j=1;j<=n;j++)
+		  {
+			scanf("%d",&a[i][j]);
+			if(b[a[i][j]])
+			  f=false;
+			else
+			  b[a[i][j]]=1;
+		  }
+		  sum+=a[i][1];
+		}
+		for(i=2;i<=n;i++)
+		{
+			temp=0;
+			for(j=1;j<=n;j++)
+			  temp+=a[j][i];
+			if(temp!=sum)
+			  f=false;
+		}
+		if(f==false)
+		{
+			printf("No\n");
+			continue;
+		}
+		for(i=1;i<=n;i++)
+		{
+			temp=0;
+			for(j=1;j<=n;j++)
+			  temp+=a[i][j];
+			if(temp!=sum)
+			  f=false;
+		}
+		if(f==false)
+		{
+			printf("No\n");
+			continue;
+		}
+		for(i=1,temp=0;i<=n;i++)
+			temp+=a[i][i];
+		if(temp!=sum)
+		{
+			printf("No\n");
+			continue;
+		}
+		for(i=1,temp=0;i<=n;i++)
+		  temp+=a[n-i+1][i];
+		if(temp!=sum)
+		{
+			printf("No\n");
+			continue;
+		}
+		if(f)
+		  printf("Yes\n");
+	}
+	return 0;
+}
